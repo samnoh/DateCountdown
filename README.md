@@ -20,7 +20,7 @@ If you want to change the time format, simply change DATE_FORMAT variable in the
 For example, DATE_FORMAT = '%y/%m/%d' or '%m/%d/%y'.
 
 ### Color
-If your Mac is not in dark mode, then simple cahnge DARK_MODE variable, that is, DARK_MODE = False
+If your Mac is not in dark mode, then simply cahnge DARK_MODE variable, that is, DARK_MODE = False
 
 You can change colors for future, present and past countdowns as well
 
