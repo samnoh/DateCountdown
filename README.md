@@ -36,6 +36,8 @@ Should be written in this format, otherwise it skips the wrong line.
 For example,
 
 25/12/18 Christmas
+
 This line will be ignored
+
 31/12/18 Last day of the year
 
