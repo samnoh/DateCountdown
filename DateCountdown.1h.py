@@ -12,16 +12,22 @@ from datetime import datetime
 import os.path
 import subprocess
 
-BASE_PATH  = os.path.dirname(__file__) + "/"
+BASE_PATH  = os.path.dirname(__file__) + '/'
 FILE_PATH = BASE_PATH + '.DateCountdown.txt'
 MENUBAR_SHOWN = 1
 MAXIMUM_STRING = 30
 DATE_FORMAT = '%d/%m/%y'
-COLOR = {
-	'future': 'black',
+DEFAULT_THEME = {
+	'future': 'black', # default: in white mode
 	'present': 'green',
-	'past': 'blue',
+	'past': 'blue'
 }
+OTHER_THEME = {
+	'future': '',
+	'present': '',
+	'past': ''
+}
+COLOR = DEFAULT_THEME
 
 
 def diffTime(time_future):
@@ -70,9 +76,14 @@ def PrintDates(time_list):
 def PrintOptions(): # Options
 	print('---')
 	print("Edit/Add Dates | bash='open -e " + FILE_PATH + " && exit'" )
+	print('Select Theme')
+	print('------')
+	print("--Default | bash='cd " + FILE_PATH " && git clone https://github.com/samnoh/DateCountdown.git'")
+	print('--Other |')
+	print('Update Plugin |')
 	print('---')
 	print('Created with :heart: by Sam | color=gray href=https://www.instagram.com/sam48855/')
-
+	
 
 def PrintWelcome(): # New Users
 	print('Welcome')
@@ -83,8 +94,9 @@ def PrintWelcome(): # New Users
 	
 
 def main():
-	if 'Dark' in subprocess.check_output(["defaults", "read", "-g", "AppleInterfaceStyle"], universal_newlines=True):
-		COLOR['future'] = 'white'
+	# check if MacOS is in dark mode
+	if 'Dark' in subprocess.check_output(["defaults", "read", "-g", "AppleInterfaceStyle"], universal_newlines = True):
+		DEFAULT_THEME['future'] = 'white'
 
 	time_list = ReadFile()
 	time_past = []
