@@ -79,9 +79,9 @@ def PrintOptions(): # Options
 	print("Edit/Add Dates | bash='open -e " + FILE_PATH + " && exit'" )
 	print('Select Theme')
 	print('------')
-	print("--Default | bash='cd " + GIT_PATH + " && git clone https://github.com/samnoh/DateCountdown.git'")
+	print('--Default')
 	print('--Other |')
-	print('Update Plugin |')
+	print("Update Plugin | bash='cd " + GIT_PATH + " && git clone https://github.com/samnoh/DateCountdown.git'")
 	print('---')
 	print('Created with :heart: by Sam | color=gray href=https://www.instagram.com/sam48855/')
 	
