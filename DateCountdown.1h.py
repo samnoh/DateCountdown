@@ -36,9 +36,7 @@ def ReadFile():
 		PrintWelcome()
 
 	time_dict = {} 
-	text = file.read().splitlines()
-
-	for line in text:
+	for line in file.read().splitlines():
 		if len(line) == 0: # empty line
 			continue
 
@@ -68,11 +66,13 @@ def PrintDates(time_list):
 		else: # past
 			print(abs(time_diff), 'days since', title, '| length=', MAXIMUM_STRING, ' color=', COLOR['past'], sep=' ')
 
+
 def PrintOptions(): # Options
 	print('---')
 	print("Edit/Add Dates | bash='open -e " + FILE_PATH + " && exit'" )
 	print('---')
 	print('Created with :heart: by Sam | color=gray href=https://www.instagram.com/sam48855/')
+
 
 def PrintWelcome(): # New Users
 	print('Welcome')
