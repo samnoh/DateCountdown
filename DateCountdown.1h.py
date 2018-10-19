@@ -12,6 +12,7 @@ from datetime import datetime
 import os.path
 import subprocess
 
+GIT_PATH = '~/Develop'
 BASE_PATH  = os.path.dirname(__file__) + '/'
 FILE_PATH = BASE_PATH + '.DateCountdown.txt'
 MENUBAR_SHOWN = 1
@@ -78,7 +79,7 @@ def PrintOptions(): # Options
 	print("Edit/Add Dates | bash='open -e " + FILE_PATH + " && exit'" )
 	print('Select Theme')
 	print('------')
-	print("--Default | bash='cd " + FILE_PATH + " && git clone https://github.com/samnoh/DateCountdown.git'")
+	print("--Default | bash='cd " + GIT_PATH + " && git clone https://github.com/samnoh/DateCountdown.git'")
 	print('--Other |')
 	print('Update Plugin |')
 	print('---')
