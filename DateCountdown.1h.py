@@ -1,7 +1,7 @@
 #!/usr/bin/env PYTHONIOENCODING=UTF-8 /usr/local/bin/python3
 
 # <bitbar.title>Date Countdown</bitbar.title>
-# <bitbar.version>v1.1.1</bitbar.version>
+# <bitbar.version>v1.2</bitbar.version>
 # <bitbar.author>Sam NOh</bitbar.author>
 # <bitbar.author.github>samnoh</bitbar.author.github>
 # <bitbar.desc>Shows how many dates left or past for certain days</bitbar.desc>
@@ -9,18 +9,16 @@
 # <bitbar.dependencies>python3</bitbar.dependencies>
 
 from datetime import datetime
-import os
-import operator
+import os.path
+import subprocess
 
-
-BASE_PATH  = '~/BitBar/'
+BASE_PATH  = os.path.dirname(__file__) + "/"
 FILE_PATH = BASE_PATH + '.DateCountdown.txt'
 MENUBAR_SHOWN = 1
 MAXIMUM_STRING = 30
 DATE_FORMAT = '%d/%m/%y'
-DARK_MODE = True
 COLOR = {
-	'future': 'white',
+	'future': 'black',
 	'present': 'green',
 	'past': 'blue',
 }
@@ -35,11 +33,7 @@ def ReadFile():
 	try:
 		file = open(os.path.expanduser(FILE_PATH), 'r')
 	except OSError: # if no text file exits
-		print('Welcome')
-		print('---')
-		print("Click to start | refresh=true bash='touch " + BASE_PATH + ".DateCountdown.txt && echo 25/12/18 Christmas > " + BASE_PATH + ".DateCountdown.txt'")
-		print('After click, you need to refresh')
-		exit() # end of program right here
+		PrintWelcome()
 
 	time_dict = {} 
 	text = file.read().splitlines()
@@ -48,9 +42,7 @@ def ReadFile():
 		if len(line) == 0: # empty line
 			continue
 
-		line_arr = line.split(' ')
-		time = line_arr[0]
-		
+		time = line.split(' ')[0]
 		try:
 			if datetime.strptime(time, DATE_FORMAT) == False: # if input is not in the date format
 				raise ValueError
@@ -64,7 +56,7 @@ def ReadFile():
 	return list(sorted(time_dict.items(), key = lambda kv: kv[1])) # sort the dictionary and convert it to a list
 
 
-def PrintOutput(time_list):
+def PrintDates(time_list):
 	for index in range(len(time_list)):
 		time_diff = time_list[index][1]
 		title = time_list[index][0]
@@ -75,11 +67,24 @@ def PrintOutput(time_list):
 			print(time_diff, 'days until', title, '| length=', MAXIMUM_STRING, ' color=', COLOR['future'], sep=' ')
 		else: # past
 			print(abs(time_diff), 'days since', title, '| length=', MAXIMUM_STRING, ' color=', COLOR['past'], sep=' ')
-				
+
+def PrintOptions(): # Options
+	print('---')
+	print("Edit/Add Dates | bash='open -e " + FILE_PATH + " && exit'" )
+	print('---')
+	print('Created with :heart: by Sam | color=gray href=https://www.instagram.com/sam48855/')
+
+def PrintWelcome(): # New Users
+	print('Welcome')
+	print('---')
+	print("Click to start | bash='touch " + FILE_PATH + " && echo 25/12/18 Christmas > " + BASE_PATH + ".DateCountdown.txt'")
+	print('After click above, you need to refresh')
+	exit() # end of program right here
+	
 
 def main():
-	if not DARK_MODE:
-		COLOR['future'] = 'black'
+	if 'Dark' in subprocess.check_output(["defaults", "read", "-g", "AppleInterfaceStyle"], universal_newlines=True):
+		COLOR['future'] = 'white'
 
 	time_list = ReadFile()
 	time_past = []
@@ -96,29 +101,25 @@ def main():
 			time_past.append(item)
 
 	if len(time_present) > 0: # if there is present countdown
-		PrintOutput(time_present[:MENUBAR_SHOWN]) 
+		PrintDates(time_present[:MENUBAR_SHOWN]) 
 		print('---')
-		PrintOutput(time_present[MENUBAR_SHOWN:]) 
-		PrintOutput(time_future)
-		PrintOutput(time_past)
+		PrintDates(time_present[MENUBAR_SHOWN:]) 
+		PrintDates(time_future)
+		PrintDates(time_past)
 	elif len(time_future) > 0: # no present countdown now
-		PrintOutput(time_future[:MENUBAR_SHOWN]) # only one for the future will be shown
+		PrintDates(time_future[:MENUBAR_SHOWN]) # only one for the future will be shown
 		print('---')
-		PrintOutput(time_future[MENUBAR_SHOWN:])
-		PrintOutput(time_past)
+		PrintDates(time_future[MENUBAR_SHOWN:])
+		PrintDates(time_past)
 	elif len(time_past) > 0:
-		PrintOutput(time_past[:MENUBAR_SHOWN])
+		PrintDates(time_past[:MENUBAR_SHOWN])
 		print('---')
-		PrintOutput(time_past[MENUBAR_SHOWN:])
+		PrintDates(time_past[MENUBAR_SHOWN:])
 	else: # Nothing in the list
-		print('No Countdown :sob:', sep='')
+		print('No Countdown :sob:')
 		print('---')
 
-	# Options
-	print('---')
-	print("Edit/Add Dates | bash='open -e ", BASE_PATH, ".DateCountdown.txt && exit'" , sep='')
-	print('---')
-	print('Created with :heart: by Sam | color=gray href=https://www.instagram.com/sam48855/')
+	PrintOptions()
 
 
 if __name__ == "__main__":
