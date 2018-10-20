@@ -10,14 +10,15 @@
 import os, subprocess
 from datetime import datetime
 
-GIT_PATH = '/'.join(os.path.realpath(__file__).split('/')[:-1])
+GIT_PATH = '/'.join(os.path.realpath(__file__).split('/')[:-1]) # real path, not alias
 BASE_PATH  = os.path.dirname(__file__) + '/'
 FILE_PATH = BASE_PATH + '.DateCountdown.txt'
 MENUBAR_SHOWN = 1
 MAXIMUM_STRING = 30
 DATE_FORMAT = '%d/%m/%y'
-DEFAULT_THEME = {
+DEFAULT_THEME = { # future color is default
 	'present': 'green',
+	'future': 'gray',
 	'past': 'blue'
 }
 COLOR = DEFAULT_THEME
@@ -59,21 +60,19 @@ def PrintDates(time_list):
 		title = time_list[index][0]
 		
 		if time_diff == 0: # present
-			print(title, 'IS TODAY! | length=', MAXIMUM_STRING, ' color=', COLOR['present'], sep=' ')
+			print(title, 'IS TODAY! | length=', MAXIMUM_STRING, 'color=', COLOR['present'], sep=' ')
 		elif time_diff > 0: # future
-			print(time_diff, 'days until', title, '| length=', MAXIMUM_STRING, sep=' ')
+			print(time_diff, 'days until', title, '| length=', MAXIMUM_STRING, 'color=', COLOR['future'], sep=' ')
 		else: # past
-			print(abs(time_diff), 'days since', title, '| length=', MAXIMUM_STRING, ' color=', COLOR['past'], sep=' ')
+			print(abs(time_diff), 'days since', title, '| length=', MAXIMUM_STRING, 'color=', COLOR['past'], sep=' ')
 
 
 def PrintOptions(): # Options
 	print('---')
-	print("Edit/Add Dates | bash='open -e " + FILE_PATH + " && exit'" )
+	print("Edit/Add Dates | bash='open -e " + FILE_PATH + " && exit'")
 	print('---')
 	print("Update Plugin | bash='cd " + GIT_PATH + " && git reset --hard && git pull'")
-	print('---')
-	print('Created with :heart: by Sam | color=#303030 href=https://www.instagram.com/sam48855')
-	print('Visit GitHub | color=#303030 href=https://github.com/samnoh/DateCountdown')
+	print('Created with :heart: by Sam | color=gray href=https://github.com/samnoh/DateCountdown')
 	
 
 def PrintWelcome(): # New Users
