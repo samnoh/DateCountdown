@@ -71,7 +71,7 @@ def PrintOptions(): # Options
 	print('---')
 	print("Edit/Add Dates | bash='open -e " + FILE_PATH + " && exit'" )
 	print('---')
-	print("Update Plugin | bash='cd " + GIT_PATH + " && git pull'")
+	print("Update Plugin | bash='cd " + GIT_PATH + " && git reset --hard && git pull'")
 	print('---')
 	print('Created with :heart: by Sam | color=#303030 href=https://www.instagram.com/sam48855')
 	print('Visit GitHub | color=#303030 href=https://github.com/samnoh/DateCountdown')
