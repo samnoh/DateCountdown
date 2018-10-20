@@ -4,15 +4,13 @@
 # <bitbar.version>v1.2</bitbar.version>
 # <bitbar.author>Sam NOh</bitbar.author>
 # <bitbar.author.github>samnoh</bitbar.author.github>
-# <bitbar.desc>Shows how many dates left or past for certain days</bitbar.desc>
-# <bitbar.image></bitbar.image>
+# <bitbar.desc>Shows how many dates left or past for certain days on your menu bar</bitbar.desc>
 # <bitbar.dependencies>python3</bitbar.dependencies>
 
+import os, subprocess, sys
 from datetime import datetime
-import os.path
-import subprocess
 
-GIT_PATH = '~/Develop'
+GIT_PATH = '~/Develop/DateCountdown'
 BASE_PATH  = os.path.dirname(__file__) + '/'
 FILE_PATH = BASE_PATH + '.DateCountdown.txt'
 MENUBAR_SHOWN = 1
@@ -22,11 +20,6 @@ DEFAULT_THEME = {
 	'future': 'black', # default: in white mode
 	'present': 'green',
 	'past': 'blue'
-}
-OTHER_THEME = {
-	'future': '',
-	'present': '',
-	'past': ''
 }
 COLOR = DEFAULT_THEME
 
@@ -40,7 +33,7 @@ def ReadFile():
 	try:
 		file = open(os.path.expanduser(FILE_PATH), 'r')
 	except OSError: # if no text file exits
-		PrintWelcome()
+		return 0
 
 	time_dict = {} 
 	for line in file.read().splitlines():
@@ -77,29 +70,33 @@ def PrintDates(time_list):
 def PrintOptions(): # Options
 	print('---')
 	print("Edit/Add Dates | bash='open -e " + FILE_PATH + " && exit'" )
-	print('Select Theme')
-	print('------')
-	print('--Default')
-	print('--Other |')
-	print("Update Plugin | bash='cd " + GIT_PATH + " && git clone https://github.com/samnoh/DateCountdown.git .'")
 	print('---')
-	print('Created with :heart: by Sam | color=gray href=https://www.instagram.com/sam48855/')
+	print("Update Plugin | bash='cd " + GIT_PATH + " && git pull'")
+	print('---')
+	print('Created with :heart: by Sam | color=#303030 href=https://www.instagram.com/sam48855')
+	print('Visit GitHub | color=#303030 href=https://github.com/samnoh/DateCountdown')
 	
 
 def PrintWelcome(): # New Users
 	print('Welcome')
 	print('---')
 	print("Click to start | bash='touch " + FILE_PATH + " && echo 25/12/18 Christmas > " + BASE_PATH + ".DateCountdown.txt'")
-	print('After click above, you need to refresh')
+	print('After click above, you need to refresh | color= ', COLOR['future'])
 	exit() # end of program right here
-	
 
-def main():
+
+def Main():
 	# check if MacOS is in dark mode
 	if 'Dark' in subprocess.check_output(["defaults", "read", "-g", "AppleInterfaceStyle"], universal_newlines = True):
 		DEFAULT_THEME['future'] = 'white'
 
+	if len(sys.argv) == 2:
+		DEFAULT_THEME['future'] = 'blue'
+
 	time_list = ReadFile()
+	if time_list == 0:
+		PrintWelcome()
+
 	time_past = []
 	time_present = []
 	time_future = []
@@ -136,4 +133,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    Main()
