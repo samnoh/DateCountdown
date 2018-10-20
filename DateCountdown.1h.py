@@ -62,7 +62,8 @@ def PrintDates(time_list):
 		if time_diff == 0: # present
 			print(title, 'IS TODAY! | length=', MAXIMUM_STRING, 'color=', COLOR['present'], sep=' ')
 		elif time_diff > 0: # future
-			print(time_diff, 'days until', title, '| length=', MAXIMUM_STRING, 'color=', COLOR['future'], sep=' ')
+			print(time_diff, 'days until', title, '| length=', MAXIMUM_STRING, sep=' ')
+			#print(time_diff, 'days until', title, '| length=', MAXIMUM_STRING, 'color=', COLOR['future'], sep=' ')
 		else: # past
 			print(abs(time_diff), 'days since', title, '| length=', MAXIMUM_STRING, 'color=', COLOR['past'], sep=' ')
 
@@ -72,11 +73,11 @@ def PrintOptions(): # Options
 	print("Edit/Add Dates | bash='open -e " + FILE_PATH + " && exit'")
 	print('---')
 	print("Update Plugin | bash='cd " + GIT_PATH + " && git reset --hard && git pull'")
-	print('Created with :heart: by Sam | color=gray href=https://github.com/samnoh/DateCountdown')
+	print('Created with :heart: by Sam | href=https://github.com/samnoh/DateCountdown')
 	
 
 def PrintWelcome(): # New Users
-	print('Welcome')
+	print('Welcome!')
 	print('---')
 	print("Click to start | bash='touch " + FILE_PATH + " && echo 25/12/18 Christmas > " + BASE_PATH + ".DateCountdown.txt'")
 	print('After click above, you need to refresh | color= ', COLOR['future'])
@@ -85,8 +86,21 @@ def PrintWelcome(): # New Users
 	
 def Main():	
 	time_list = ReadFile()
+
 	if time_list == 0:
 		PrintWelcome()
+
+	if len(time_list) == 0:
+		print('No Countdown :sob:')
+		print('---')
+		PrintOptions()
+		exit()
+
+	global MENUBAR_SHOWN
+	if MENUBAR_SHOWN > len(time_list):
+		MENUBAR_SHOWN = len(time_list)
+	elif MENUBAR_SHOWN < 1:
+		MENUBAR_SHOWN = 1
 
 	time_past = []
 	time_present = []
@@ -101,25 +115,12 @@ def Main():
 		else: 
 			time_past.append(item)
 
-	if len(time_present) > 0: # if there is present countdown
-		PrintDates(time_present[:MENUBAR_SHOWN]) 
-		print('---')
-		PrintDates(time_present[MENUBAR_SHOWN:]) 
-		PrintDates(time_future)
-		PrintDates(time_past)
-	elif len(time_future) > 0: # no present countdown now
-		PrintDates(time_future[:MENUBAR_SHOWN]) # only one for the future will be shown
-		print('---')
-		PrintDates(time_future[MENUBAR_SHOWN:])
-		PrintDates(time_past)
-	elif len(time_past) > 0:
-		PrintDates(time_past[:MENUBAR_SHOWN])
-		print('---')
-		PrintDates(time_past[MENUBAR_SHOWN:])
-	else: # Nothing in the list
-		print('No Countdown :sob:')
-		print('---')
+	time_past.reverse()
+	time_list = time_present + time_future + time_past
 
+	PrintDates(time_list[:MENUBAR_SHOWN])
+	print('---')
+	PrintDates(time_list[MENUBAR_SHOWN:])
 	PrintOptions()
 
 
