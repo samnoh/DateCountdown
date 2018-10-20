@@ -58,15 +58,15 @@ def ReadFile():
 def PrintDates(time_list):
 	for index in range(len(time_list)):
 		time_diff = time_list[index][1]
-		title = time_list[index][0]
+		title = time_list[index][0].split('&')[0]
 		
 		if time_diff == 0: # present
-			print(title.split('&')[0], 'IS TODAY! | length=', MAXIMUM_STRING, 'color=', COLOR['present'], sep=' ')
+			print(title, 'IS TODAY! | length=', MAXIMUM_STRING, 'color=', COLOR['present'], sep=' ')
 		elif time_diff > 0: # future
-			print(time_diff, 'days until', title.split('&')[0], '| length=', MAXIMUM_STRING, sep=' ')
+			print(time_diff, 'days until', title, '| length=', MAXIMUM_STRING, sep=' ')
 			#print(time_diff, 'days until', title, '| length=', MAXIMUM_STRING, 'color=', COLOR['future'], sep=' ')
 		else: # past
-			print(abs(time_diff), 'days since', title.split('&')[0], '| length=', MAXIMUM_STRING, 'color=', COLOR['past'], sep=' ')
+			print(abs(time_diff), 'days since', title, '| length=', MAXIMUM_STRING, 'color=', COLOR['past'], sep=' ')
 
 
 def PrintOptions(): # Options
