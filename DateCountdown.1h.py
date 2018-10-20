@@ -10,14 +10,13 @@
 import os, subprocess
 from datetime import datetime
 
-GIT_PATH = '~/Develop/DateCountdown'
+GIT_PATH = '/'.join(os.path.realpath(__file__).split('/')[:-1])
 BASE_PATH  = os.path.dirname(__file__) + '/'
 FILE_PATH = BASE_PATH + '.DateCountdown.txt'
 MENUBAR_SHOWN = 1
 MAXIMUM_STRING = 30
 DATE_FORMAT = '%d/%m/%y'
 DEFAULT_THEME = {
-	'future': 'black', # default: in white mode
 	'present': 'green',
 	'past': 'blue'
 }
@@ -62,7 +61,7 @@ def PrintDates(time_list):
 		if time_diff == 0: # present
 			print(title, 'IS TODAY! | length=', MAXIMUM_STRING, ' color=', COLOR['present'], sep=' ')
 		elif time_diff > 0: # future
-			print(time_diff, 'days until', title, '| length=', MAXIMUM_STRING, ' color=', COLOR['future'], sep=' ')
+			print(time_diff, 'days until', title, '| length=', MAXIMUM_STRING, sep=' ')
 		else: # past
 			print(abs(time_diff), 'days since', title, '| length=', MAXIMUM_STRING, ' color=', COLOR['past'], sep=' ')
 
@@ -84,15 +83,8 @@ def PrintWelcome(): # New Users
 	print('After click above, you need to refresh | color= ', COLOR['future'])
 	exit() # end of program right here
 
-
-def Main():
-	# check if MacOS is in dark mode
-	try:
-		if 'Dark' in subprocess.check_output(["defaults", "read", "-g", "AppleInterfaceStyle"], shell=True):
-			DEFAULT_THEME['future'] = 'white'
-	except subprocess.CalledProcessError: # in white mode
-		pass
-
+	
+def Main():	
 	time_list = ReadFile()
 	if time_list == 0:
 		PrintWelcome()
