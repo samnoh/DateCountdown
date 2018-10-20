@@ -1,13 +1,13 @@
 #!/usr/bin/env PYTHONIOENCODING=UTF-8 /usr/local/bin/python3
 
 # <bitbar.title>Date Countdown</bitbar.title>
-# <bitbar.version>v1.2</bitbar.version>
+# <bitbar.version>v1.3</bitbar.version>
 # <bitbar.author>Sam NOh</bitbar.author>
 # <bitbar.author.github>samnoh</bitbar.author.github>
 # <bitbar.desc>Shows how many dates left or past for certain days on your menu bar</bitbar.desc>
 # <bitbar.dependencies>python3</bitbar.dependencies>
 
-import os, subprocess, sys
+import os, subprocess
 from datetime import datetime
 
 GIT_PATH = '~/Develop/DateCountdown'
@@ -87,11 +87,11 @@ def PrintWelcome(): # New Users
 
 def Main():
 	# check if MacOS is in dark mode
-	if 'Dark' in subprocess.check_output(["defaults", "read", "-g", "AppleInterfaceStyle"], universal_newlines = True):
-		DEFAULT_THEME['future'] = 'white'
-
-	if len(sys.argv) == 2:
-		DEFAULT_THEME['future'] = 'blue'
+	try:
+		if 'Dark' in subprocess.check_output(["defaults", "read", "-g", "AppleInterfaceStyle"], shell=True):
+			DEFAULT_THEME['future'] = 'white'
+	except subprocess.CalledProcessError: # in white mode
+		pass
 
 	time_list = ReadFile()
 	if time_list == 0:
