@@ -10,6 +10,7 @@
 import os, subprocess
 from datetime import datetime
 
+
 GIT_PATH = '/'.join(os.path.realpath(__file__).split('/')[:-1]) # real path, not alias
 BASE_PATH  = os.path.dirname(__file__) + '/'
 FILE_PATH = BASE_PATH + '.DateCountdown.txt'
@@ -24,7 +25,7 @@ DEFAULT_THEME = { # future color is default
 COLOR = DEFAULT_THEME
 
 
-def diffTime(time_future):
+def DiffTime(time_future):
 	duration_in_seconds = (time_future - datetime.now()).total_seconds()
 	return int(divmod(duration_in_seconds, 86400)[0] + 1)
 
@@ -47,8 +48,8 @@ def ReadFile():
 		except ValueError:
 			continue # skip the line
 	
-		title = line.replace(time, '').lstrip().rstrip() # remove whitespace on the left and right side
-		time_dict[title] = diffTime(datetime.strptime(time, DATE_FORMAT))  # add it to dictionary
+		title = line.replace(time, '').lstrip().rstrip() + '&' + time # remove whitespace on the left and right side
+		time_dict[title] = DiffTime(datetime.strptime(time, DATE_FORMAT))  # add it to dictionary
 
 	file.close()
 	return list(sorted(time_dict.items(), key = lambda kv: kv[1])) # sort the dictionary and convert it to a list
@@ -60,12 +61,12 @@ def PrintDates(time_list):
 		title = time_list[index][0]
 		
 		if time_diff == 0: # present
-			print(title, 'IS TODAY! | length=', MAXIMUM_STRING, 'color=', COLOR['present'], sep=' ')
+			print(title.split('&')[0], 'IS TODAY! | length=', MAXIMUM_STRING, 'color=', COLOR['present'], sep=' ')
 		elif time_diff > 0: # future
-			print(time_diff, 'days until', title, '| length=', MAXIMUM_STRING, sep=' ')
+			print(time_diff, 'days until', title.split('&')[0], '| length=', MAXIMUM_STRING, sep=' ')
 			#print(time_diff, 'days until', title, '| length=', MAXIMUM_STRING, 'color=', COLOR['future'], sep=' ')
 		else: # past
-			print(abs(time_diff), 'days since', title, '| length=', MAXIMUM_STRING, 'color=', COLOR['past'], sep=' ')
+			print(abs(time_diff), 'days since', title.split('&')[0], '| length=', MAXIMUM_STRING, 'color=', COLOR['past'], sep=' ')
 
 
 def PrintOptions(): # Options
@@ -74,30 +75,30 @@ def PrintOptions(): # Options
 	print('---')
 	print("Update Plugin | bash='cd " + GIT_PATH + " && git reset --hard && git pull'")
 	print('Created with :heart: by Sam (1.3) | href=https://github.com/samnoh/DateCountdown')
-	
+
 
 def PrintWelcome(): # New Users
 	print('Welcome!')
 	print('---')
 	print("Click to start | bash='touch " + FILE_PATH + " && echo 25/12/18 Christmas > " + BASE_PATH + ".DateCountdown.txt'")
-	print('After click above, you need to refresh | color= ', COLOR['future'])
+	print('After click above, you need to refresh')
 	exit() # end of program right here
 
-	
+
+def PrintNoList():
+	print('No Countdown :sob:')
+	PrintOptions()
+	exit()
+
+
 def Main():	
 	time_list = ReadFile()
 
 	if time_list == 0:
 		PrintWelcome()
-		print('---')
-		PrintOptions()
-		exit()
 
 	if len(time_list) == 0:
-		print('No Countdown :sob:')
-		print('---')
-		PrintOptions()
-		exit()
+		PrintNoList()
 
 	global MENUBAR_SHOWN
 	if MENUBAR_SHOWN > len(time_list):
@@ -106,20 +107,13 @@ def Main():
 		MENUBAR_SHOWN = 1
 
 	time_past = []
-	time_present = []
-	time_future = []
-
 	for item in time_list:
-		time_diff = item[1]
-		if time_diff == 0:
-			time_present.append(item)
-		elif time_diff > 0:
-			time_future.append(item)
-		else: 
+		if item[1] < 0:
 			time_past.append(item)
+			time_list.remove(item)
 
 	time_past.reverse()
-	time_list = time_present + time_future + time_past
+	time_list += time_past
 
 	PrintDates(time_list[:MENUBAR_SHOWN])
 	print('---')
