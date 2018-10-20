@@ -73,7 +73,7 @@ def PrintOptions(): # Options
 	print("Edit/Add Dates | bash='open -e " + FILE_PATH + " && exit'")
 	print('---')
 	print("Update Plugin | bash='cd " + GIT_PATH + " && git reset --hard && git pull'")
-	print('Created with :heart: by Sam | href=https://github.com/samnoh/DateCountdown')
+	print('Created with :heart: by Sam (1.3) | href=https://github.com/samnoh/DateCountdown')
 	
 
 def PrintWelcome(): # New Users
@@ -89,6 +89,9 @@ def Main():
 
 	if time_list == 0:
 		PrintWelcome()
+		print('---')
+		PrintOptions()
+		exit()
 
 	if len(time_list) == 0:
 		print('No Countdown :sob:')
