@@ -30,9 +30,7 @@ The default colors are the followings:
 
 
 ### Add/Edit Dates
-Should be written in this format, 
-
-For example,
+Should be written in this format, for example,
 
 25/12/18 Christmas
 
