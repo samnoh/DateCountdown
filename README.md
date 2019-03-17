@@ -6,11 +6,10 @@ BitBar Plugin Script | Date Countdown on your menubar
 2. Python 3
 
 ## How to install
-1. Go to https://getbitbar.com
-2. Install it
-3. Download the plugin in your BitBar plugin folder
-4. Refresh BitBar
-5. Enjoy :smile:
+1. Go to https://getbitbar.com and install.
+2. Download this plugin in your BitBar default plugin folder
+3. Refresh BitBar
+4. Enjoy :smile:
 
 ## How to use
 
@@ -37,4 +36,4 @@ For example,
 
 25/12/18 Christmas
 
-Otherwise it skips the wrong line.
+Otherwise it skips the unformatted line.
