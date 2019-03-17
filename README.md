@@ -25,19 +25,16 @@ If your Mac is not in dark mode, then simply cahnge DARK_MODE variable, that is,
 You can change colors for future, present and past countdowns as well
 
 The default colors are the followings: 
-Future: White/Black
-Present: Green
-Past: Blue
+* Future: White/Black
+* Present: Green
+* Past: Blue
 
 
 ### Add/Edit Dates
-Should be written in this format, otherwise it skips the wrong line.
+Should be written in this format, 
 
 For example,
 
 25/12/18 Christmas
 
-This line will be ignored
-
-31/12/18 Last day of the year
-
+Otherwise it skips the wrong line.
