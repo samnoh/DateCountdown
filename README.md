@@ -36,4 +36,4 @@ For example,
 
 25/12/18 Christmas
 
-Otherwise it skips the unformatted line.
+Otherwise it skips unformatted lines.
