@@ -1,4 +1,4 @@
-# DateCountdown
+# BitBar Date Countdown
 BitBar Plugin Script | Date Countdown on your menubar
 
 ## Requirements
